@@ -58,11 +58,13 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None), argv=None):
 
     targets = []
     if "d" in options:
-        basename = filename[:-3] if filename.endswith(".in") else filename
-        targets.append(open(basename + ".out", 'w'))
+        root, ext = os.path.splitext(filename)
+        if ext == '.out':
+            root += '.out'
+        targets.append(open(root + '.out', 'w'))
     if not targets or "c" in options:
         targets.append(sys.stdout)
-    f_out = multi_file(targets)
+    f_out = MultiOutput(targets)
 
     with open(filename) as f_in:
         num_cases, other_data = p0(f_in)
