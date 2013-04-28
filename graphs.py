@@ -1,5 +1,6 @@
 """ A library including some basic graph-related algorithms.
-Requires networkx or a networkx-compatible graph class to work properly."""
+Requires networkx or a networkx-compatible graph class to work properly.
+"""
 from __future__ import division, print_function
 import collections
 

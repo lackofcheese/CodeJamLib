@@ -14,7 +14,7 @@ import numpy as np # See http://www.numpy.org/
 import gmpy2 # See https://code.google.com/p/gmpy/
 #import networkx as nx # See http://networkx.github.io/
 
-# MY MODULES
+# MY MODULES - available at 
 sys.path.append(os.path.join(
     os.environ['GOOGLE_DRIVE'], 'Coding', 'GCJ', 'CodeJamLib'))
 import proc
