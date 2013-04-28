@@ -1,0 +1,7 @@
+Some convenient tools for solving Google Code Jam problems.
+
+Includes a couple of I/O functions and a template solution, in order to
+quickly set up a solution and get coding.
+
+Also included are assorted tools, including some especially useful functions
+for working with prime numbers.
