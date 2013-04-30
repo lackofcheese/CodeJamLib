@@ -1,5 +1,10 @@
 """ Some basic tools for command-line processing of Google Code Jam. """
+import os
 import sys
+import subprocess
+
+MY_MODULES = ['codejam_io', 'combinatorics', 'graphs', 'memo', 'primes']
+CMD = ["C:\\Program Files\\7-Zip\\7z.exe", "u", "-tzip"]
 
 class MultiOutput(object):
     """ A simple class to duplicate output into multiple output files.
@@ -26,7 +31,8 @@ class MultiOutput(object):
         for f in self._files:
             f.write(data)
 
-def process_input(pfun, p0=lambda f:(int(f.readline()), None), argv=None):
+def process_input(pfun, p0=lambda f:(int(f.readline()), None),
+        module_path=None, argv=None):
     """ Processes a single Code Jam input file with some command-line tools.
 
     The arguments are two functions; - the first (pfun) takes
@@ -64,6 +70,8 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None), argv=None):
         targets.append(open(root + '.out', 'w'))
     if not targets or "c" in options:
         targets.append(sys.stdout)
+    if "n" in options:
+        module_path = None
     f_out = MultiOutput(targets)
 
     with open(filename) as f_in:
@@ -71,3 +79,23 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None), argv=None):
         for case_no in range(1, num_cases+1):
             pfun(f_in, f_out, case_no, other_data)
     f_out.close()
+    
+    if module_path is not None:
+        make_archive(module_path)
+
+def make_archive(module_path):
+    print()
+    files = []
+    target = os.path.join(os.path.split(module_path)[0], "src.zip")
+    files.append(os.path.abspath(module_path))
+    for module_name in sys.modules:
+        if module_name in MY_MODULES:
+            files.append(sys.modules[module_name].__file__)
+    try:
+        os.remove(target)
+        print("Deleted {}".format(target))
+    except OSError:
+        pass
+    command = CMD + [target] + files
+    print("Running " + ' '.join(CMD))
+    subprocess.call(CMD + [target] + files)

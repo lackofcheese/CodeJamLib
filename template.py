@@ -26,7 +26,7 @@ def process_first(f_in):
     other_data = None
     return num_cases, other_data
 
-def process_case(f_in, f_out, case_no, other_data):
+def process_case(f_in, f_out, case_no, other_data=None):
     ans = "FAIL"
     print("Case #{}: {}".format(case_no, ans), file=f_out)
 
@@ -34,4 +34,4 @@ def solve():
     return None
 
 if __name__ == '__main__':
-    codejam_io.process_input(process_case, process_first)
+    codejam_io.process_input(process_case, process_first, __file__)
