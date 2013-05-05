@@ -19,7 +19,7 @@ sys.path.append(os.path.join(
 import codejam_io
 
 def toks_line(f_in, fun=lambda x: x):
-    return [fun(k) for k in f.readline().strip().split()]
+    return [fun(k) for k in f_in.readline().strip().split()]
 
 def process_first(f_in):
     num_cases = int(f_in.readline())
