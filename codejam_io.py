@@ -1,3 +1,4 @@
+from __future__ import print_function
 """ Some basic tools for command-line processing of Google Code Jam. """
 import os
 import sys
