@@ -7,7 +7,7 @@ import zipfile
 
 class MultiOutput(object):
     """ A simple class to duplicate output into multiple output files.
-    
+
     Makes an object that allows you to write to multiple files as though
     they were a single file (via the write() method, which is sufficient
     to also work for the print() function).
@@ -35,13 +35,13 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None),
     """ Processes a single Code Jam input file with some command-line tools.
 
     The arguments are two functions; - the first (pfun) takes
-    four arguments - the input file, the output file, the current case 
+    four arguments - the input file, the output file, the current case
     number, and any other case data (this is often None).
 
     The second only requires the input file, and should parse the file for
     the number of cases and any additional data that is needed; this
     data is passed onto pfun via its fourth argument.
-    
+
     The command-line options are simple - a single input file is expected,
     defaulting to test.in if no file is given. By default, the output
     simply goes to stdout, but this is modified by two options:
@@ -78,18 +78,19 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None),
         for case_no in range(1, num_cases+1):
             pfun(f_in, f_out, case_no, other_data)
     f_out.close()
-    
+
     if module_path is not None:
         make_archive(module_path)
 
 def make_archive(module_path):
-    files = []
+    paths = set()
     target = os.path.join(os.path.split(module_path)[0], "src.zip")
+    paths.add(os.path.realpath(module_path))
     for module_name in sys.modules:
         try:
             path = sys.modules[module_name].__file__
             if path.startswith(os.environ['GOOGLE_DRIVE']):
-                files.append(path)
+                paths.add(path)
         except AttributeError:
             pass
     try:
@@ -97,10 +98,10 @@ def make_archive(module_path):
         print("Deleted {} - remaking".format(target))
     except OSError:
         pass
-    
+
     archive = zipfile.ZipFile(target, 'w')
-    for file in files:
-        archive.write(file, os.path.basename(file))
-        # print("Wrote {}".format(file))
+    for path in paths:
+        filename = os.path.basename(path)
+        archive.write(path, filename)
+        print("Added {}".format(filename))
     archive.close()
-    
