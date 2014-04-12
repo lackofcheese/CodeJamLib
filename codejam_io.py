@@ -3,9 +3,7 @@ from __future__ import print_function
 import os
 import sys
 import subprocess
-
-MY_MODULES = ['codejam_io', 'combinatorics', 'graphs', 'memo', 'primes']
-CMD = ["C:\\Program Files\\7-Zip\\7z.exe", "u", "-tzip"]
+import zipfile
 
 class MultiOutput(object):
     """ A simple class to duplicate output into multiple output files.
@@ -85,18 +83,24 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None),
         make_archive(module_path)
 
 def make_archive(module_path):
-    print()
     files = []
     target = os.path.join(os.path.split(module_path)[0], "src.zip")
-    files.append(os.path.abspath(module_path))
     for module_name in sys.modules:
-        if module_name in MY_MODULES:
-            files.append(sys.modules[module_name].__file__)
+        try:
+            path = sys.modules[module_name].__file__
+            if path.startswith(os.environ['GOOGLE_DRIVE']):
+                files.append(path)
+        except AttributeError:
+            pass
     try:
         os.remove(target)
-        print("Deleted {}".format(target))
+        print("Deleted {} - remaking".format(target))
     except OSError:
         pass
-    command = CMD + [target] + files
-    print("Running " + ' '.join(CMD))
-    subprocess.call(CMD + [target] + files)
+    
+    archive = zipfile.ZipFile(target, 'w')
+    for file in files:
+        archive.write(file, os.path.basename(file))
+        # print("Wrote {}".format(file))
+    archive.close()
+    

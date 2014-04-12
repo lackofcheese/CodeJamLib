@@ -1,6 +1,7 @@
+#! /usr/bin/env python
 """ A template for Code Jam solutions. Should work with Python 2 and 3."""
 from __future__ import print_function, division
-try: 
+try:
     range = xrange
 except NameError:
     pass
