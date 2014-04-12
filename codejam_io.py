@@ -50,6 +50,7 @@ def process_input(pfun, p0=lambda f:(int(f.readline()), None),
                 ".out" afterwards.
         -c    If -d was selected, the output will be copied to stdout as well
                 as to the file.
+        -n    Don't update the source code archive.
     """
     if not argv:
         argv = sys.argv[1:]
