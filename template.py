@@ -5,12 +5,14 @@ try:
     range = xrange
 except NameError:
     pass
-import collections
-import functools
-import itertools as it
-import numpy as np # See http://www.numpy.org/
-import gmpy2 # See https://code.google.com/p/gmpy/
-#import networkx as nx # See http://networkx.github.io/
+
+# import collections
+# import functools
+# import itertools as it
+# import numpy as np # See http://www.numpy.org
+# import sympy as sp # See http://sympy.org/en/index.html
+# import gmpy2 # See https://code.google.com/p/gmpy/
+# import networkx as nx # See http://networkx.github.io/
 
 import os
 import sys
