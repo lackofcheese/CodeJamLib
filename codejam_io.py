@@ -29,6 +29,9 @@ class MultiOutput(object):
         """ Writes the given data to all wrapped files. """
         for f in self._files:
             f.write(data)
+            # Automatically flush stdout
+            if f == sys.stdout:
+                f.flush()
 
 def process_input(pfun, p0=lambda f:(int(f.readline()), None),
         module_path=None, argv=None):
@@ -96,7 +99,7 @@ def make_archive(module_path):
             pass
     try:
         os.remove(target)
-        print("Deleted {} - remaking".format(target))
+        print("Deleted {} - remaking".format(target), file=sys.stderr)
     except OSError:
         pass
 
@@ -104,5 +107,5 @@ def make_archive(module_path):
     for path in paths:
         filename = os.path.basename(path)
         archive.write(path, filename)
-        print("Added {}".format(filename))
+        print("Added {}".format(filename), file=sys.stderr)
     archive.close()

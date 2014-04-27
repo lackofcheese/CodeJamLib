@@ -19,7 +19,7 @@ sys.path.append(os.path.join(
     os.environ['GOOGLE_DRIVE'], 'Coding', 'GCJ', 'CodeJamLib'))
 import codejam_io
 
-def toks_line(f_in, fun=lambda x: x):
+def toks_line(f_in, fun=int):
     return [fun(k) for k in f_in.readline().split()]
 
 def process_first(f_in):
