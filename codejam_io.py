@@ -2,6 +2,7 @@ from __future__ import print_function
 """ Some basic tools for command-line processing of Google Code Jam. """
 import os
 import sys
+import inspect
 import subprocess
 import zipfile
 
@@ -92,11 +93,12 @@ def make_archive(module_path):
     paths.add(os.path.realpath(module_path))
     for module_name in sys.modules:
         try:
-            path = sys.modules[module_name].__file__
+            path = inspect.getsourcefile(sys.modules[module_name])
             if path.startswith(os.environ['GOOGLE_DRIVE']):
                 paths.add(path)
-        except AttributeError:
+        except (TypeError, AttributeError):
             pass
+    print(file=sys.stderr)
     try:
         os.remove(target)
         print("Deleted {} - remaking".format(target), file=sys.stderr)
